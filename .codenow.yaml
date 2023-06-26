@@ -3,9 +3,9 @@ version: v1
 advancedMode:
   enabled: false
 build:
-  # Image used by CI pipelines in build tasks, recommendation: use the official maven repo if you want to change runtime version: https://hub.docker.com/_/maven
-  image: maven:3.8.6-openjdk-11
-  # Environment variables used by CI pipelines in all tasks
+  # Image used by CI pipelines in build tasks, recommendation: use the official node repo if you want to change runtime version: https://hub.docker.com/_/node
+  image: docker.io/node:20.2.0
+  # definitions of environment variables that will be used in all stages of your pipeline
   environmentVariables: []
     #- key: variable1
     #  value: value1
@@ -15,19 +15,16 @@ build:
     #  value: value3
   pipelines:
     release:
-      pipeline: java-maven-app-release
+      pipeline: js-npm-app-release
     preview:
-      pipeline: java-maven-app-preview
+      pipeline: js-npm-app-preview
     triggers: []
 runtime:
   # Image is used as a base image for your runtime container
-  image: openjdk:11.0.3-jre-slim-stretch
+  image: docker.io/nginx
   # Port on which the service will be exposed
-  port: 80
+  port: 3000
   endpoints:
     external:
       # Expose service to external endpoint
       enabled: true
-  java:
-    # JVM parameters that is used for extension of run command
-    jvmParameters: -Xmx128m -Xms128m -XX:MaxMetaspaceSize=128m
